@@ -1,0 +1,144 @@
+ Java SE / EE / ME
+ 
+ Java EE : 자바 (SE) + JSP /Servlet
+     => 웹페이지에 결과물 작성
+     
+*  JSP(Java Server Page) : 클라이언트의 요청을 받아서 동적 처리할때 사용하는 언어/기술
+  
+   JSP2.2 - Servlet 3.0 / JSP2.3 - Servlet3.1 
+   => 실행시키기 위한 도구 : WEB 서버/ WAS서버(DB처리가 가능한상태) ( Tomcat )
+   
+   
+   * JSP 페이지 -> WEB/WAS서버 -> 처리(JSP -> Servlet : JAVA(class)) -> 화면
+   
+   
+   * 서블릿 : 자바를 사용해서 웹 애플리케이션을 개발할수있는 기술 (멀티 쓰레딩방식)
+   
+   * 서블릿 생성규칙
+   1. javax.servlet.Servlet 인터페이스를 구현
+   2.  1번이 불가 할경우, javax.servlet.http.HttpServlet 클래스 상속
+     (일반적으로 2번을 주로 사용)
+   3. doGet(),doPost() 메서드를 오버라이딩해서 처리 ,
+   javax.servlet.HttpServletRequest,javax.servlet.HttpServletResponse,
+   전달인자로 받아야한다.
+   4. java.io.IOException,javax.servlet.ServletException을 예외로 던져야함.
+   5. web.xml (배포서술자)  서블릿을 url 매핑해야함(~3.0/3.1~ 어노테이션사용)
+    
+    
+  서블릿 p23, p27~29
+  
+  1. 사용자의 URL 요청
+  2. request,response 객체 생성 (HttpServletRequest,HttpServletResponse)
+  3. 서블릿 인스턴스(객체) 생성 - 기존의 서블릿 인스턴스가 존재할경우 기존의 서블릿(쓰레드) 사용
+                   - 인스턴스가 없을경우 직접 메모리에 올려서 사용(init()초기화)
+   * 서블릿 인스턴스는  웹 컨테이너당 하나씩 존재,init()는 각각 서블릿당 한번씩 호출
+  4. service()메서드 호출 & 서블릿 클래스를 실행
+     service() -> get방식 : doGet() 메서드/ post 방식 : doPost()메서드 호출
+     
+  5. 동적페이지의 처리결과가  response 객체에 웹컨테이너 정보를 담아서 전달 
+  6. 해당 쓰레드를 소멸(서블릿)    
+  
+  D:\workspace_jsp7\.metadata\.plugins\org.eclipse.wst.server.core
+  \tmp0\work\Catalina\localhost
+  => JSP -> JAVA(Servlet)
+  
+  * JSP -> Servlet 규칙
+  1. 웹애플리케이션에서 배포된 jsp 페이지는 사용자의 요청이 들어올때 서블릿으로 변환
+  2. JSP 스크립틀릿 코드 <%  %>  => service()메서드안에 작성
+  3. JSP 표현식 <%= %> =>  서블릿 service() 메서드안에  out.println() 변환
+  4. JSP 선언문 <%! %> =>  멤버 메서드형태로 변환
+  5. 일반 HTML 코드 => 서블릿 service()메서드안에  out.write()변환
+  6. page 디렉티브 <%@ %> => 서블릿 변환시 필요 정보로 사용 
+  
+  
+  p556
+   model1 개발방식 (php)
+        입력 / 출력   :~form.jsp
+        처리 : ~pro.jsp
+  
+   model2 개발 방식 (MVC 패턴)
+   
+    M : Model : 처리 페이지 (주로 DB 처리) : .java
+    V : View : 화면 페이지(디자인) : .jsp/.html
+    C : Controller : Model-View 연결  : Servlet(.java)
+       
+   
+   
+   
+  * 페이지 이동방식 (model2에서 사용)
+  1. response 객체 사용 이동
+     response.sendRedirect("이동할 페이지");
+     
+     A.jsp -> B.jsp
+     주소 변경  O
+     화면 변경  O
+     내장객체 정보 : session,application  
+  
+  2. forward 이동 
+     <jsp:forward page="">~
+     
+     RequestDispatcher dis =
+         request.getRequestDispatcher("이동할 페이지");
+         
+     dis.forward(request,response);    
+  
+     A.jsp -> B.jsp
+     주소 변경  X 
+     화면 변경  O
+     내장객체 정보 : request,session,application  
+  
+   
+   * 웹 브라우저 실행순서
+   
+   1. 브라우저 주소창 주소 입력
+   2. 도메인 서버로 이동  (도메인 <-> 서버IP)
+   3. IP 주소를 사용해서 웹 서버에 이동
+   4. 웹서버에서는 정적인 페이지 처리 (사용자에 페이지 응답 가능)
+   5. 동적인 페이지 처리 필요시(DB연결) WAS로 전달
+   6. WAS전달받은 정보를 사용해서 데이터 처리 
+   7. 해당 DBMS와 연결 & 처리 결과를 WAS에서 저장
+   8. WEB 서버로 전달 -> 도메인 서버(서버 IP <-> 도메인) 
+   9. 사용자 페이지 확인 
+   
+   
+   * Model2 방식의 데이터 처리 
+   
+   1. 페이지 요청(WEB서버-tomcat)-request 객체 전달
+   2. web.xml 페이지에서 해당 동작에대한 메핑(3.1~ 어노테이션으로 사용가능)
+   3. 해당 컨트롤러로 이동 (주소계산, 조건비교, 이동)
+   3-1. 화면만 보여줄경우 바로 뷰페이지로 이동
+   3-2. 데이터 필요한경우 모델 페이지로 이동
+   4. 모델페이지 경우 DB값이 필요한경우 DB처리를 통해서 연결 
+   
+   
+   
+   // model2_member 테이블 생성
+   CREATE TABLE `model2`.`model2_member` (
+  `id` VARCHAR(50) NOT NULL,
+  `pass` VARCHAR(45) NULL,
+  `name` VARCHAR(45) NULL,
+  `age` INT NULL,
+  `gender` VARCHAR(2) NULL,
+  `email` VARCHAR(200) NULL,
+  `reg_date` TIMESTAMP NULL,
+  PRIMARY KEY (`id`));
+   
+   
+   
+   
+   
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
