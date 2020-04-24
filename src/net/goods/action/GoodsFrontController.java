@@ -1,4 +1,4 @@
-package net.admin.goods.action;
+package net.goods.action;
 
 import java.io.IOException;
 
@@ -8,17 +8,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import net.goods.action.GoodsDetailAction;
+import net.goods.action.Action;
+import net.goods.action.ActionForward;
 
-
-public class AdminGoodsFrontController extends HttpServlet {
-
+public class GoodsFrontController extends HttpServlet {
+	
 	protected void doProcess(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		System.out.println("doProcess() 호출!");
 		
-		// 가상주소의 정보를 가져오기
+		System.out.println("doProcess() 호출");
+		
 		String requestURI = request.getRequestURI();
 		System.out.println("URI : "+requestURI);
 		
@@ -45,78 +44,34 @@ public class AdminGoodsFrontController extends HttpServlet {
 		/////////////////////////////////////////////////////////////////
 		////2.가상 페이지 이동 동작 (model/view)
 		/////////////////////////////////////////////////////////////////
-		System.out.println("---------------페이지 구분 (view/model)");
-		
-		if(command.equals("/GoodsAdd.ag")){
-			//관리자가 상품등록 페이지 (view)
-			// ./admingoods/admin_goods_write.jsp
-			System.out.println("/GoodsAdd.ag 처리완료 (view 이동)");
-			
-			// 이동정보 처리객체
-			forward = new ActionForward();
-			forward.setPath("./admingoods/admin_goods_write.jsp");
-			forward.setRedirect(false);
-			
-		}else if(command.equals("/GoodsAddAction.ag")){
-			// 관리자가 상품등록한 페이지 처리 (model)
-			System.out.println("/GoodsAddAction.ag 처리완료 (model 이동)");
-			// GoodsAddAction() 객체 생성
-			action = new GoodsAddAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}else if(command.equals("/GoodsList.ag")){
-			// 기존의 상품 정보를 가져와서 보여주는 페이지 (model->view)
+		if(command.equals("/GoodsList.go")){
+			//일반 사용자가 상품의 정보를 확인하는 리스트
 			//GoodsListAction() 객체 생성
-			System.out.println("/GoodsList.ag 처리완료(model->view)");
+			System.out.println("/GoodsList.go 처리 model->view");
 			
-			action = new GoodsListAction(); //메모리에 올린다.(객체 생성) 
-			
-//			forward.setPath("./admingoods/admin_goods_list.jsp");
-			
+			action = new GoodsListAction();
 			
 			try {
-				forward = action.execute(request, response);
+				forward = action.execute(request,response);
+				
 			} catch (Exception e) {
 				e.printStackTrace();
-			}	
-		}else if(command.equals("/GoodsModify.ag")){
-			System.out.println("GoodsModify.ag 처리완료 (model-view)");
+			}
 			
-			action = new AdminsGoodsModifyForm();
+		}else if(command.equals("/GoodsDetail.go")){
+			//상품 상세 페이지 (model -> view)
+			// /GoodsDetailAction() 객체 생성
+			System.out.println("GoodsDetail.go 페이지 처리");
 			
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}	
-		}else if(command.equals("/GoodsModifyAction.ag")){
-			System.out.println("GoodsModifyAction.ag 처리완료 ");
-			
-			action = new GoodsModifyAction();
+			action = new GoodsDetailAction();
 			
 			try {
 				forward = action.execute(request, response);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}else if(command.equals("/GoodsDelete.ag")){
-			System.out.println("GoodsDelete.ag 처리완료 (model-view");
 			
-			action = new GoodsDeleteAction();
-			
-			try {
-				forward = action.execute(request, response);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
-		
-		
-		
 		
 		
 		
@@ -137,28 +92,23 @@ public class AdminGoodsFrontController extends HttpServlet {
 				
 			}
 		}
-		
-		
-		
+
 		
 		
 	}
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		
 		System.out.println("doGet() 호출!");
 		doProcess(request, response);
-	}
 
+	}
+	
 	@Override
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
 		System.out.println("doPost() 호출!");
 		doProcess(request, response);
 	}
-
-	
 }

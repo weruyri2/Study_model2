@@ -42,14 +42,30 @@
 	<a href="./BoardList.bo">게시판 리스트 이동하기</a>
 	<hr>
 	<hr>
+		<a href="./GoodsList.go">상품 리스트 이동하기 (사용자)</a>
+	<hr>
+	<hr>
+		<a href="./BasketList.ba">장바구니 페이지</a>
+	<hr>
+	<hr>
+		<a href="./OrderList.or">주문 결제 확인 </a>
+	<hr>
+	<hr>
+		
 	<%
 	 if(id != null){
 	  if(id.equals("admin")){
 	%>
-		<a href="./MemberList.me">회원 정보 목록보기</a>
+			<a href="./MemberList.me">회원 정보 목록보기</a>
 		<hr>
 		<hr>
-				<a href="./GoodsAdd.ag">관리자 상품등록</a>
+			<a href="./GoodsAdd.ag">관리자 상품등록</a>
+		<hr>
+		<hr>
+			<a href="./GoodsList.ag">관리자 상품리스트</a>
+		<hr>
+		<hr>
+			<a href="./AdminOrderList.ao">관리자 주문리스트</a>
 		
 	<%
 	  }

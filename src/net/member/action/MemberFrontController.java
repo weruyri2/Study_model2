@@ -165,9 +165,6 @@ public class MemberFrontController extends HttpServlet{
 		
 		
 		
-		
-		
-		
 		// 페이지 이동처리 
 		if(forward != null){ // 페이지 이동정보가 있을때 
 			
@@ -181,17 +178,7 @@ public class MemberFrontController extends HttpServlet{
 			   dis.forward(request,response);				
 			}		
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
 		
 		
 	}	

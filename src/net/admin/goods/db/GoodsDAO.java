@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -105,8 +107,135 @@ public class GoodsDAO {
 		// 실행
 	}
 	
+	//getList
+	public ArrayList<GoodsDTO> getList(){
+		
+		ArrayList<GoodsDTO> goodsList = new ArrayList<GoodsDTO>();
+		
+		
+		try {
+			sql = "select * from model2_goods";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()){
+				GoodsDTO gdto = new GoodsDTO();
+				gdto.setNum(rs.getInt("num"));
+				gdto.setCategory(rs.getString("category"));
+				gdto.setName(rs.getString("name"));
+				gdto.setContent(rs.getString("content"));
+				gdto.setSize(rs.getString("size"));
+				gdto.setColor(rs.getString("color"));
+				gdto.setAmount(rs.getInt("amount"));
+				gdto.setPrice(rs.getInt("price"));
+				gdto.setImage(rs.getString("image"));
+				gdto.setBest(rs.getInt("best"));
+				gdto.setDate(rs.getDate("date"));
+				
+				goodsList.add(gdto);
+				
+			}
+			System.out.println("리스트 DB 꺼내기 완료");
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}
+		
+		
+		
+		return goodsList;
+	}
+	
+	public GoodsDTO goodsInfo(int num){
+		
+		GoodsDTO gdto = new GoodsDTO();
+		
+		try {
+			sql = "select * from model2_goods where num = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()){
+				
+				gdto.setNum(num);
+				gdto.setCategory(rs.getString("category"));
+				gdto.setName(rs.getString("name"));
+				gdto.setContent(rs.getString("content"));
+				gdto.setSize(rs.getString("size"));
+				gdto.setColor(rs.getString("color"));
+				gdto.setAmount(rs.getInt("amount"));
+				gdto.setPrice(rs.getInt("price"));
+				gdto.setImage(rs.getString("image"));
+				gdto.setBest(rs.getInt("best"));
+				gdto.setDate(rs.getDate("date"));
+				
+				System.out.println(gdto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}
+		
+		return gdto;
+
+	}
+	
+	public void ModifyGoods(GoodsDTO gdto){
+		
+		try {
+			sql="update model2_goods "
+					+ "set category=?,name=?,content=?,size=?,"
+					+ "color=?, amount=?, price=?, best=?, date=now() where num=?";
+			
+			pstmt = con.prepareStatement(sql);
+			
+			pstmt.setString(1, gdto.getCategory());
+			pstmt.setString(2, gdto.getName());
+			pstmt.setString(3, gdto.getCotent());
+			pstmt.setString(4, gdto.getSize());
+			pstmt.setString(5, gdto.getColor());
+			pstmt.setInt(6, gdto.getAmount());
+			pstmt.setInt(7, gdto.getPrice());
+			pstmt.setInt(8, gdto.getBest());
+			pstmt.setInt(9, gdto.getNum());
+			
+			pstmt.executeUpdate();
+			
+			System.out.println("---------DB 수정 완료-----------");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}
+	}
 
 	
-	
+	public void deleteGoods(int num) {
+		
+		try {
+			sql="delete from model2_goods where num =?";
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, num);
+			
+			pstmt.executeUpdate();
+			
+			System.out.println("------DB 삭제 완료 ----------");
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			closeDB();
+		}
+	}
+
+
 
 }

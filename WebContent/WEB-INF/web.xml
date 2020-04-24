@@ -73,6 +73,53 @@
   </servlet-mapping>  
   <!-- 관리자 상품 등록 -->
   
+    <!-- 사용자 상품 등록 -->
+  <servlet>
+    <servlet-name>GoodsFrontController</servlet-name>
+    <servlet-class>net.goods.action.GoodsFrontController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>GoodsFrontController</servlet-name>
+     <url-pattern>*.go</url-pattern>
+  </servlet-mapping>  
+  <!-- 사용자 상품 등록 -->
+  
+      <!-- 장바구니 -->
+  <servlet>
+    <servlet-name>BasketFrontController</servlet-name>
+    <servlet-class>net.basket.action.BasketFrontController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>BasketFrontController</servlet-name>
+     <url-pattern>*.ba</url-pattern>
+  </servlet-mapping>  
+  <!-- 장바구니 -->
+  
+  <!-- 구매하기 -->
+  <servlet>
+    <servlet-name>OrderFrontController</servlet-name>
+    <servlet-class>net.order.action.OrderFrontController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>OrderFrontController</servlet-name>
+     <url-pattern>*.or</url-pattern>
+  </servlet-mapping>  
+  <!-- 구매하기 -->
+  
+  <!-- 관리자 페이지 -->
+  <servlet>
+    <servlet-name>AdminOrderFrontController</servlet-name>
+    <servlet-class>net.admin.order.action.AdminOrderFrontController</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+     <servlet-name>AdminOrderFrontController</servlet-name>
+     <url-pattern>*.ao</url-pattern>
+  </servlet-mapping>  
+  <!-- 관리자 페이지 -->
   
   
   
