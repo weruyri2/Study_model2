@@ -1,3 +1,3 @@
 # Study_model2
 
-JSP model2 개인 
+model2 개인 
