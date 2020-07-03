@@ -1,3 +1,3 @@
 # model2
 
-항공권 예약 웹페이지 
+JSP model2 
